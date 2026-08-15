@@ -1,8 +1,8 @@
 import { findAllProducts, saveProduct } from "../repositories/productRepository.js";
-export function getProducts(){
-return findAllProducts();
+export async function getProducts(){
+return await findAllProducts();
 }
 
-export function createNewProduct(product){
-    return saveProduct(product);
+export async function createNewProduct(product){
+    return await saveProduct(product);
 }

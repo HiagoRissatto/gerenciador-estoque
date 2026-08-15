@@ -2,12 +2,12 @@ import { getProducts, createNewProduct } from "../services/productService.js"
 import { productSchema } from "../schemas/productSchema.js";
 
 
-export function listProducts(req, res) {
-    const products = getProducts();
+export async function listProducts(req, res) {
+    const products = await getProducts();
     res.send(products)
 }
 
-export function createProduct(req, res) {
+export async function createProduct(req, res) {
     const result = productSchema.safeParse(req.body);
 
     if (!result.success) {
@@ -26,6 +26,6 @@ export function createProduct(req, res) {
 
     const product = result.data;
 
-    const productCreated = createNewProduct(product);
+    const productCreated =  await createNewProduct(product);
     res.status(201).send(productCreated);
 }
