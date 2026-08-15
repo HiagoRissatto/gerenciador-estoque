@@ -17,6 +17,7 @@ export async function saveProduct(product) {
     );
     return product;
 }
+
 export async function updateProductById(id, product) {
     const update = await pool.query( `UPDATE products SET nome = $1, marca = $2, quantidade = $3, valor = $4 WHERE id = $5 RETURNING *`,
         [
@@ -37,4 +38,11 @@ export async function deleteProductById(id) {
     );
     return destroy.rows[0];
     
+}
+
+export async function findProductById(id){
+    const findProduct = await pool.query(`SELECT * FROM products WHERE id = $1`,
+        [id]
+    );
+    return findProduct.rows[0];
 }

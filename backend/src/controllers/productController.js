@@ -1,6 +1,5 @@
-import { getProducts, createNewProduct, updateExistingProduct, deleteExistingProduct } from "../services/productService.js"
+import { getProducts, createNewProduct, updateExistingProduct, deleteExistingProduct, getProductByIdService } from "../services/productService.js"
 import { productSchema } from "../schemas/productSchema.js";
-
 
 export async function listProducts(req, res) {
     const products = await getProducts();
@@ -29,6 +28,7 @@ export async function createProduct(req, res) {
     const productCreated = await createNewProduct(product);
     res.status(201).send(productCreated);
 }
+
 export async function updateProduct(req, res) {
     const { id } = req.params;
 
@@ -67,4 +67,17 @@ export async function deleteProduct(req, res) {
 
     res.status(200).json(deletedProduct);
 
+}
+
+export async function getProductById(req,res) {
+    const {id} = req.params;
+    const product = await getProductByIdService(id);
+
+    if(!product){
+        return res.status(404).json({
+            message:"Produto não encontrado"
+        });
+        res.status(200).json(product);
+    }
+    
 }
