@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "rootDir": ".",
+    "outDir": "./dist",
+
+    "module": "nodenext",
+    "target": "es2022",
+    "types": ["node"],
+
+    "sourceMap": true,
+
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+
+    "verbatimModuleSyntax": true,
+    "isolatedModules": true,
+    "moduleDetection": "force",
+    "skipLibCheck": true
+  },
+  "include": [
+    "server.ts",
+    "src/**/*.ts"
+, "src/controllers/productController.ts"  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
+}

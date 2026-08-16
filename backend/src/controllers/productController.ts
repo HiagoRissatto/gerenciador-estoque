@@ -1,12 +1,15 @@
 import { getProducts, createNewProduct, updateExistingProduct, deleteExistingProduct, getProductByIdService } from "../services/productService.js"
 import { productSchema } from "../schemas/productSchema.js";
-
-export async function listProducts(req, res) {
+import type { Request,Response } from "express";
+ type ProductParams = {
+        id:string
+    }
+export async function listProducts(req:Request,res:Response) {
     const products = await getProducts();
     res.send(products)
 }
 
-export async function createProduct(req, res) {
+export async function createProduct(req:Request,res:Response) {
     const result = productSchema.safeParse(req.body);
 
     if (!result.success) {
@@ -29,8 +32,9 @@ export async function createProduct(req, res) {
     res.status(201).send(productCreated);
 }
 
-export async function updateProduct(req, res) {
+export async function updateProduct(req:Request<ProductParams>,res:Response) {
     const { id } = req.params;
+   
 
     const result = productSchema.safeParse(req.body);
 
@@ -56,7 +60,7 @@ export async function updateProduct(req, res) {
     res.status(200).json(updatedProduct);
 }
 
-export async function deleteProduct(req, res) {
+export async function deleteProduct(req:Request<ProductParams>,res:Response) {
     const { id } = req.params;
     const deletedProduct = await deleteExistingProduct(id);
     if (!deletedProduct) {
@@ -69,7 +73,7 @@ export async function deleteProduct(req, res) {
 
 }
 
-export async function getProductById(req,res) {
+export async function getProductById(req:Request<ProductParams>,res:Response) {
     const {id} = req.params;
     const product = await getProductByIdService(id);
 
@@ -77,7 +81,7 @@ export async function getProductById(req,res) {
         return res.status(404).json({
             message:"Produto não encontrado"
         });
-        res.status(200).json(product);
     }
+    res.status(200).json(product);
     
 }
