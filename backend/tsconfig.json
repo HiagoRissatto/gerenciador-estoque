@@ -21,7 +21,7 @@
   "include": [
     "server.ts",
     "src/**/*.ts"
-, "src/controllers/productController.ts"  ],
+, "src/controllers/productController.ts", "src/app.tsx"  ],
   "exclude": [
     "node_modules",
     "dist"
