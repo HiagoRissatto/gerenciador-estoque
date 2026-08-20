@@ -1,4 +1,4 @@
-import { getProducts, createNewProduct, updateExistingProduct, deleteExistingProduct, getProductByIdService } from "../services/productService.js"
+import { getProducts, createNewProduct, updateExistingProduct, deleteExistingProduct, getProductByIdService, getLowStockProductsService } from "../services/productService.js"
 import { productSchema } from "../schemas/productSchema.js";
 import type { Request,Response } from "express";
  type ProductParams = {
@@ -84,4 +84,9 @@ export async function getProductById(req:Request<ProductParams>,res:Response) {
     }
     res.status(200).json(product);
     
+}
+
+export async function getLowStockProducts(req:Request,res:Response) {
+    const lowStockProducts = await getLowStockProductsService();
+    res.status(200).json(lowStockProducts);
 }

@@ -8,24 +8,26 @@ export async function findAllProducts() {
 
 export async function saveProduct(product:Product) {
     const insert = await pool.query(
-        "INSERT INTO products (nome, marca, quantidade, valor) VALUES ($1, $2, $3, $4)",
+        "INSERT INTO products (nome, marca, quantidade, valor, estoque_minimo) VALUES ($1, $2, $3, $4, $5) RETURNING *",
         [
             product.nome,
             product.marca,
             product.quantidade,
-            product.valor
+            product.valor,
+            product.estoque_minimo
         ]
     );
     return product;
 }
 
 export async function updateProductById(id:string, product:Product) {
-    const update = await pool.query( `UPDATE products SET nome = $1, marca = $2, quantidade = $3, valor = $4 WHERE id = $5 RETURNING *`,
+    const update = await pool.query( `UPDATE products SET nome = $1, marca = $2, quantidade = $3, valor = $4, estoque_minimo = $5 WHERE id = $6 RETURNING *`,
         [
             product.nome,
             product.marca,
             product.quantidade,
             product.valor,
+            product.estoque_minimo,
             id
         ]
     );
@@ -47,3 +49,9 @@ export async function findProductById(id:string){
     );
     return findProduct.rows[0];
 }
+
+export async function findLowStockProducts() {
+    const result = await pool.query("SELECT * FROM products WHERE quantidade <= estoque_minimo");
+    return result.rows;
+}
+
