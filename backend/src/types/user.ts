@@ -3,8 +3,8 @@ export interface User {
     nome: string;
     email: string;
     senha: string;
-    cpf: string;
-    cnpj: string;
-    created_at: Date;
-    updated_at: Date;
+    cpf?: string;
+    cnpj?: string;
+    created_at?: Date;
+    endereco: string;
 }

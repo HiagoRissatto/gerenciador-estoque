@@ -15,3 +15,4 @@ export const userSchema = z.object({
     message: "Informe CPF ou CNPJ, mas não ambos",
     path: ["cnpj", "cpf"],
 });
+export type UserInput = z.infer<typeof userSchema>;
