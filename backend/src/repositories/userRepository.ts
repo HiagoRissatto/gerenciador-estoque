@@ -1,5 +1,6 @@
 import  pool  from "../config/database.js";
 import type { UserInput } from "../schemas/userSchema.js";
+
 export async function saveUser(user: UserInput) {
   const insert = await pool.query(
     `INSERT INTO users
@@ -17,4 +18,12 @@ export async function saveUser(user: UserInput) {
   );
 
   return insert.rows[0];
+}
+
+export async function findUserByEmail(email: string) {
+  const result = await pool.query(
+    `SELECT id, nome,senha,email, cpf, cnpj, endereco, created_at FROM users WHERE email = $1`,
+    [email]
+  );
+  return result.rows[0];
 }

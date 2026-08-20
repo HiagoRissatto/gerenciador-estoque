@@ -1,9 +1,7 @@
 import express from "express";
-
 import productRoutes from "./routes/productRoutes.js";
 import StockMovementRoutes from "./routes/stockMovementRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
-
 import { errorHandler } from "./middlewares/erroHandler.js";
 
 const app = express();

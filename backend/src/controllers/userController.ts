@@ -1,7 +1,6 @@
-import type { Request, Response } from "express";
-
+import type { Request, Response, NextFunction  } from "express";
 import { userSchema } from "../schemas/userSchema.js";
-import { createUserService } from "../services/userService.js";
+import { createUserService, loginUserService } from "../services/userService.js";
 
 export async function createUserController(
   req: Request,
@@ -28,4 +27,20 @@ export async function createUserController(
   const userCreated = await createUserService(user);
 
   return res.status(201).json(userCreated);
+}
+
+export async function loginUserController(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  const { email, senha } = req.body;
+
+  try {
+    const user = await loginUserService(email, senha);
+
+    return res.status(200).json(user);
+  } catch (error) {
+    next(error);
+  }
 }
