@@ -1,6 +1,7 @@
 import type {Request,Response,NextFunction} from "express"
 
 export function errorHandler(err:Error,req:Request,res:Response,next:NextFunction) {
+    console.error(err);
 
     if(err.message === "Produto não encontrado") {
         return res.status(404).json({

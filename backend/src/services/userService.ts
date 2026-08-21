@@ -1,8 +1,8 @@
 import argon2 from "argon2";
-
+import {generateToken} from "../utils/generateToken.js";
 import type { UserInput } from "../schemas/userSchema.js";
 import { findUserByEmail, saveUser } from "../repositories/userRepository.js";
-import { email } from "zod/v4/mini";
+
 
 export async function hashPassword(senha: string) {
   return await argon2.hash(senha);
@@ -10,9 +10,10 @@ export async function hashPassword(senha: string) {
 
 export async function createUserService(user: UserInput) {
   const hashedPassword = await hashPassword(user.senha);
-
+  
   const userWithHashedPassword = {
     ...user,
+    role: "funcionario" as const,
     senha: hashedPassword
   };
 
@@ -21,18 +22,24 @@ export async function createUserService(user: UserInput) {
 
 export async function loginUserService(email: string, senha: string) {
   const user = await findUserByEmail(email);
+  
 
   if (!user) {
     throw new Error("Usuário não encontrado");
   }
 
   const isMatch = await argon2.verify(user.senha, senha);
-  
+
 
   if (!isMatch) {
     throw new Error("Senha incorreta");
   }
   const { senha: _, ...userWithoutPassword } = user;
+  const token = generateToken({ 
+    id: user.id,
+    email: user.email,
+    role: user.role
+  });
 
-  return userWithoutPassword;
-}
+  return { user: userWithoutPassword, token }
+};
