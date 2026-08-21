@@ -28,3 +28,10 @@ export async function findUserByEmail(email: string) {
   );
   return result.rows[0];
 }
+
+export async function findAllUsers() {
+  const result = await pool.query(
+    `SELECT id, nome, email, cpf, cnpj, endereco, role, created_at FROM users ORDER BY id DESC`
+  );
+  return result.rows;
+}

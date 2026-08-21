@@ -1,7 +1,7 @@
 import argon2 from "argon2";
 import {generateToken} from "../utils/generateToken.js";
 import type { UserInput } from "../schemas/userSchema.js";
-import { findUserByEmail, saveUser } from "../repositories/userRepository.js";
+import { findUserByEmail, saveUser, findAllUsers } from "../repositories/userRepository.js";
 
 
 export async function hashPassword(senha: string) {
@@ -43,3 +43,7 @@ export async function loginUserService(email: string, senha: string) {
 
   return { user: userWithoutPassword, token }
 };
+
+export async function getAllUsersService() {
+  return await findAllUsers();
+}
