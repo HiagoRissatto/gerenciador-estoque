@@ -1,4 +1,4 @@
-import  pool  from "../config/database.js";
+import pool from "../config/database.js";
 import type { UserInput } from "../schemas/userSchema.js";
 
 export async function saveUser(user: UserInput) {
@@ -34,4 +34,19 @@ export async function findAllUsers() {
     `SELECT id, nome, email, cpf, cnpj, endereco, role, created_at FROM users ORDER BY id DESC`
   );
   return result.rows;
+}
+
+export async function updateUserRole(
+  id: string,
+  role: "admin" | "funcionario"
+) {
+  const result = await pool.query(
+    `UPDATE users
+     SET role = $1
+     WHERE id = $2
+     RETURNING id, nome, email, role`,
+    [role, id]
+  );
+
+  return result.rows[0];
 }

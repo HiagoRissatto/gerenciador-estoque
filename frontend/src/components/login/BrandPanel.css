@@ -1,0 +1,119 @@
+.brand-panel {
+  position: relative;
+  min-height: 100vh;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(0, 122, 164, 0.25),
+      rgba(0, 36, 74, 0.9)
+    ),
+    linear-gradient(
+      135deg,
+      #0587a8,
+      #003a67 55%,
+      #002947
+    );
+
+  border-top-right-radius: 70px;
+  border-bottom-right-radius: 70px;
+
+  overflow: hidden;
+  color: white;
+}
+
+.brand-overlay {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 4rem 5rem;
+}
+
+.brand-content {
+  max-width: 430px;
+}
+
+.brand-logo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.brand-drop {
+  font-size: 4rem;
+  line-height: 1;
+  margin-bottom: 0.75rem;
+
+  background: linear-gradient(
+    180deg,
+    #52e3b8,
+    #00a7dc,
+    #1476ff
+  );
+
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.brand-logo h1 {
+  font-size: 4rem;
+  font-weight: 700;
+  margin: 0;
+  letter-spacing: -2px;
+}
+
+.brand-line {
+  height: 3px;
+  background: #32ddd0;
+  margin: 2rem 0;
+  border-radius: 20px;
+}
+
+.brand-slogan {
+  font-size: 1.6rem;
+  line-height: 1.4;
+  margin-bottom: 3rem;
+}
+
+.brand-slogan span {
+  color: #2ed9ba;
+}
+
+.brand-features {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.brand-feature {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.25rem;
+}
+
+.feature-icon {
+  min-width: 70px;
+  height: 70px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+  background: rgba(0, 180, 220, 0.16);
+
+  font-size: 1.7rem;
+  color: #54e6dd;
+}
+
+.brand-feature h3 {
+  margin: 0 0 0.4rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.brand-feature p {
+  margin: 0;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.8);
+}

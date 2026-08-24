@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { isValidCpf, isValidCnpj } from "../utils/documentValidators.js";
 
 export const userSchema = z.object({
     nome: z.string().min(3, {
@@ -14,21 +15,17 @@ export const userSchema = z.object({
     }),
 
     cpf: z.string()
-        .length(11, {
-            message: "O CPF deve ter 11 caracteres"
+        .refine(isValidCpf, {
+            message: "CPF inválido"
         })
-        .regex(/^\d{11}$/, {
-            message: "O CPF deve conter apenas números"
-        })
+        .transform((value) => value.replace(/\D/g, ""))
         .optional(),
 
     cnpj: z.string()
-        .length(14, {
-            message: "O CNPJ deve ter 14 caracteres"
+        .refine(isValidCnpj, {
+            message: "CNPJ inválido"
         })
-        .regex(/^\d{14}$/, {
-            message: "O CNPJ deve conter apenas números"
-        })
+        .transform((value) => value.replace(/\D/g, ""))
         .optional(),
 
     endereco: z.string().min(5, {

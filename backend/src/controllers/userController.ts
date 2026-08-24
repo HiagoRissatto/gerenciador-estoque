@@ -1,6 +1,9 @@
 import type { Request, Response, NextFunction  } from "express";
 import { userSchema } from "../schemas/userSchema.js";
-import { createUserService, getAllUsersService, loginUserService } from "../services/userService.js";
+import { createUserService, getAllUsersService, loginUserService, updateUserRoleService } from "../services/userService.js";
+type UserParams = {
+  id: string;
+};
 
 export async function createUserController(
   req: Request,
@@ -53,3 +56,41 @@ export async function listUsersController(req: Request, res: Response, next: Nex
     next(error);
   }
 }
+
+export async function updateUserRoleController(
+  req: Request<UserParams>,
+  res: Response,
+  next: NextFunction
+) {
+  const { id } = req.params;
+  const { role } = req.body;
+
+  if (role !== "admin" && role !== "funcionario") {
+    return res.status(400).json({
+      message: "Role inválido."
+    });
+  }
+  try {
+    const user = await updateUserRoleService(id, role);
+    return res.status(200).json(user);
+  } catch (error) {
+    return next(error);
+  }
+}
+
+export async function getCurrentUserController(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    const user = (req as any).user;
+
+    return res.status(200).json({
+      user
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+
