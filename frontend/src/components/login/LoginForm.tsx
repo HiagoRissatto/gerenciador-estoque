@@ -1,5 +1,6 @@
 import { useState } from "react";
 import type { FormEvent } from "react";
+import remaihDrop from "../../assets/remaih-gota.svg";
 
 import { motion } from "motion/react";
 
@@ -72,7 +73,7 @@ export default function LoginForm({
       if (!response.ok) {
         setError(
           data.message ||
-            "Não foi possível realizar o login."
+          "Não foi possível realizar o login."
         );
 
         return;
@@ -122,9 +123,53 @@ export default function LoginForm({
           delay: 0.2
         }}
       >
-        <div className="login-mini-logo">
-          ◆
-        </div>
+<div className="login-mini-logo">
+  <motion.img
+    src={remaihDrop}
+    alt="Remaih"
+    className="login-drop"
+    initial={{
+      opacity: 0,
+      y: -25,
+      scale: 0.8
+    }}
+    animate={{
+      opacity: 1,
+      y: [0, -4, 0],
+      scale: 1
+    }}
+    transition={{
+      opacity: {
+        duration: 0.4
+      },
+
+      scale: {
+        duration: 0.5,
+        ease: "easeOut"
+      },
+
+      y: {
+        delay: 0.4,
+        duration: 2.8,
+        repeat: Infinity,
+        ease: "easeInOut"
+      }
+    }}
+  />
+
+  <motion.span
+    className="drop-shadow"
+    animate={{
+      scaleX: [1, 0.75, 1],
+      opacity: [0.18, 0.08, 0.18]
+    }}
+    transition={{
+      duration: 2.8,
+      repeat: Infinity,
+      ease: "easeInOut"
+    }}
+  />
+</div>
 
         <h2>Bem-vindo de volta!</h2>
 
@@ -237,16 +282,16 @@ export default function LoginForm({
             loading
               ? {}
               : {
-                  scale: 1.03,
-                  y: -2
-                }
+                scale: 1.03,
+                y: -2
+              }
           }
           whileTap={
             loading
               ? {}
               : {
-                  scale: 0.97
-                }
+                scale: 0.97
+              }
           }
           transition={{
             duration: 0.2

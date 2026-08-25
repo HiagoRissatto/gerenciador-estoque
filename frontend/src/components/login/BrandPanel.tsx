@@ -1,13 +1,59 @@
 import "./BrandPanel.css";
+import remaihDrop from "../../assets/remaih-gota.svg";
+import remaihWaves from "../../assets/remaih-waves.svg";
 import { motion } from "motion/react";
 export default function BrandPanel() {
   return (
     <section className="brand-panel">
+
+
       <div className="brand-overlay">
         <div className="brand-content">
+          
+          
           <div className="brand-logo">
-            <div className="brand-drop">◆</div>
-
+            <motion.img
+              src={remaihDrop}
+              alt="Remaih"
+              className="brand-drop"
+              initial={{
+                opacity: 0,
+                y: -20,
+                scale: 0.85
+              }}
+              animate={{
+                opacity: 1,
+                y: [0, -6, 0],
+                scale: 1
+              }}
+              transition={{
+                opacity: {
+                  duration: 0.5
+                },
+                scale: {
+                  duration: 0.6,
+                  ease: "easeOut"
+                },
+                y: {
+                  delay: 0.5,
+                  duration: 3.5,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }
+              }}
+            />
+            <motion.span
+              className="drop-shadow"
+              animate={{
+                scaleX: [1, 0.75, 1],
+                opacity: [0.18, 0.08, 0.18]
+              }}
+              transition={{
+                duration: 2.8,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            />
             <h1>Remaih</h1>
           </div>
 
@@ -63,6 +109,22 @@ export default function BrandPanel() {
           </div>
         </div>
       </div>
+
+<motion.img
+  src={remaihWaves}
+  alt=""
+  className="brand-waves"
+  animate={{
+    y: [0, -8, 0, 6, 0],
+    scaleX: [1, 1.025, 1, 0.985, 1],
+    scaleY: [1, 1.01, 1, 0.995, 1]
+  }}
+  transition={{
+    duration: 10,
+    repeat: Infinity,
+    ease: "easeInOut"
+  }}
+/>
     </section>
   );
 }

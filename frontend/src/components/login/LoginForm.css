@@ -25,20 +25,43 @@
 }
 
 .login-mini-logo {
-    width: 54px;
-    height: 54px;
-    margin: 0 auto 1rem;
+  position: relative;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  width: 72px;
+  height: 82px;
 
-    border-radius: 18px;
+  margin: 0 auto 1rem;
 
-    background: linear-gradient(135deg, #10b8d8, #36d3ae);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
 
-    color: white;
-    font-size: 1.5rem;
+  background: transparent;
+}
+
+.login-drop {
+  width: 60px;
+  height: 60px;
+
+  object-fit: contain;
+
+  position: relative;
+  z-index: 2;
+}
+
+.drop-shadow {
+  position: absolute;
+
+  bottom: 5px;
+
+  width: 32px;
+  height: 6px;
+
+  border-radius: 50%;
+
+  background: rgba(0, 70, 95, 0.3);
+
+  filter: blur(3px);
 }
 
 .login-card h2 {
@@ -167,4 +190,46 @@
     color: #78909c;
     font-size: 1.15rem;
     cursor: pointer;
+}
+@media (max-width: 768px) {
+  .login-card {
+    max-width: 100%;
+    padding: 2rem 1.25rem;
+    border-radius: 24px;
+  }
+
+  .login-card h2 {
+    font-size: 1.6rem;
+  }
+
+  .login-options {
+    gap: 1rem;
+    align-items: flex-start;
+  }
+
+  .login-divider {
+    margin: 1.4rem 0;
+  }
+
+  .register-text {
+    margin-top: 1.4rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-card {
+    padding: 1.5rem 1rem;
+    border-radius: 20px;
+  }
+
+  .login-options {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .login-input,
+  .login-button,
+  .google-button {
+    height: 48px;
+  }
 }

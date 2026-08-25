@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 
 import BrandPanel from "../../components/login/BrandPanel";
@@ -9,63 +9,111 @@ import "./Login.css";
 
 export default function Login() {
   const [isRegistering, setIsRegistering] = useState(false);
+  const [isMobile, setIsMobile] = useState(
+    window.innerWidth <= 768
+  );
+
+  useEffect(() => {
+    function handleResize() {
+      setIsMobile(window.innerWidth <= 768);
+    }
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   return (
     <main className="auth-page">
       <motion.div
-        className="auth-brand"
-        animate={{
-          x: isRegistering ? "100%" : "0%"
-        }}
-        transition={{
-          duration: 0.7,
-          ease: "easeInOut"
-        }}
-      >
-        <BrandPanel />
-      </motion.div>
+  className="auth-brand"
+  animate={{
+    x: isMobile
+      ? 0
+      : isRegistering
+        ? "100%"
+        : "0%"
+  }}
+  transition={{
+    duration: 0.7,
+    ease: "easeInOut"
+  }}
+>
+  <BrandPanel />
+</motion.div>
 
-            <motion.div
-        className="auth-form"
-        animate={{
-          x: isRegistering ? "-100%" : "0%"
-        }}
-        transition={{
-          duration: 0.7,
-          ease: "easeInOut"
-        }}
-      >
+<motion.div
+  className="auth-form"
+  animate={{
+    x: isMobile
+      ? 0
+      : isRegistering
+        ? "-100%"
+        : "0%"
+  }}
+  transition={{
+    duration: 0.7,
+    ease: "easeInOut"
+  }}
+>
         <AnimatePresence mode="wait">
           {isRegistering ? (
             <motion.div
               key="register"
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 30 }}
-              transition={{ duration: 0.35 }}
+              initial={{
+                opacity: 0,
+                x: isMobile ? 20 : -30
+              }}
+              animate={{
+                opacity: 1,
+                x: 0
+              }}
+              exit={{
+                opacity: 0,
+                x: isMobile ? -20 : 30
+              }}
+              transition={{
+                duration: 0.35
+              }}
               className="auth-form-content"
             >
               <RegisterForm
-                onLogin={() => setIsRegistering(false)}
+                onLogin={() =>
+                  setIsRegistering(false)
+                }
               />
             </motion.div>
           ) : (
             <motion.div
               key="login"
-              initial={{ opacity: 0, x: 30 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -30 }}
-              transition={{ duration: 0.35 }}
+              initial={{
+                opacity: 0,
+                x: 30
+              }}
+              animate={{
+                opacity: 1,
+                x: 0
+              }}
+              exit={{
+                opacity: 0,
+                x: -30
+              }}
+              transition={{
+                duration: 0.35
+              }}
               className="auth-form-content"
             >
               <LoginForm
-                onRegister={() => setIsRegistering(true)}
+                onRegister={() =>
+                  setIsRegistering(true)
+                }
               />
             </motion.div>
           )}
         </AnimatePresence>
       </motion.div>
-
     </main>
   );
 }
