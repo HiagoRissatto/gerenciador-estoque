@@ -5,8 +5,25 @@ import { motion } from "motion/react";
 export default function BrandPanel() {
   return (
     <section className="brand-panel">
-
-
+      <svg
+        className="water-ripples"
+        viewBox="0 0 900 900"
+        preserveAspectRatio="none"
+        aria-hidden="true"
+      >
+        <g className="water-ripple water-ripple-one">
+          <path d="M-80 280 C120 210 210 350 390 280 S690 210 980 300" />
+          <path d="M-80 340 C100 275 240 410 430 340 S700 285 980 365" />
+        </g>
+        <g className="water-ripple water-ripple-two">
+          <path d="M-100 540 C110 460 250 625 450 530 S730 480 1000 570" />
+          <path d="M-80 600 C150 520 260 685 470 585 S760 530 980 630" />
+        </g>
+        <g className="water-ripple water-ripple-three">
+          <path d="M-100 760 C100 680 260 820 470 735 S760 690 1000 780" />
+          <path d="M-100 815 C130 735 270 875 500 785 S760 745 1000 835" />
+        </g>
+      </svg>
       <div className="brand-overlay">
         <div className="brand-content">
           
