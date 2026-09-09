@@ -2,6 +2,7 @@ import { useState } from "react";
 import type { FormEvent } from "react";
 
 import { motion } from "motion/react";
+import { API_URL } from "../../services/api";
 
 import "./RegisterForm.css";
 
@@ -23,8 +24,9 @@ export default function RegisterForm({
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  function handleSubmit(
+  async function handleSubmit(
     event: FormEvent<HTMLFormElement>
   ) {
     event.preventDefault();
@@ -60,7 +62,47 @@ export default function RegisterForm({
       return;
     }
 
-    onLogin();
+    setLoading(true);
+
+    try {
+      const response = await fetch(`${API_URL}/usuarios`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          nome: name.trim(),
+          email: email.trim(),
+          senha: password,
+          ...(accountType === "cpf"
+            ? { cpf: document.trim() }
+            : { cnpj: document.trim() }),
+          endereco: address.trim()
+        })
+      });
+
+      const data = (await response.json().catch(() => ({}))) as {
+        message?: string;
+        errors?: Array<{ message?: string }>;
+      };
+
+      if (!response.ok) {
+        setError(
+          data.errors?.[0]?.message ||
+          data.message ||
+          `Não foi possível criar a conta (erro ${response.status}).`
+        );
+        return;
+      }
+
+      onLogin();
+    } catch {
+      setError(
+        "Não foi possível conectar ao servidor. Verifique se a API está em execução."
+      );
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -243,8 +285,9 @@ export default function RegisterForm({
         <button
           type="submit"
           className="register-button"
+          disabled={loading}
         >
-          Criar conta
+          {loading ? "Criando conta..." : "Criar conta"}
         </button>
 
         <button
