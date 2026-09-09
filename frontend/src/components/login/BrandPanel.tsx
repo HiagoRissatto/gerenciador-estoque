@@ -1,6 +1,7 @@
 import "./BrandPanel.css";
 import remaihDrop from "../../assets/remaih-gota.svg";
 import remaihWaves from "../../assets/remaih-waves.svg";
+import AnimatedWaves from "../brand/AnimatedWaves";
 import { motion } from "motion/react";
 export default function BrandPanel() {
   return (
@@ -57,15 +58,27 @@ export default function BrandPanel() {
             <h1>Remaih</h1>
           </div>
 
-          <motion.div
-            className="brand-line"
-            initial={{ width: 0, opacity: 0, x: -15 }}
-            animate={{ width: 80, opacity: 1, x: 0 }}
-            transition={{
-              duration: 0.9,
-              ease: "easeOut",
-            }}
-          />
+<motion.div
+  className="brand-line"
+  initial={{
+    width: 40,
+    opacity: 0
+  }}
+  animate={{
+    width: [40, 100, 55, 90, 40],
+    opacity: 1
+  }}
+  transition={{
+    width: {
+      duration: 4,
+      repeat: Infinity,
+      ease: "easeInOut"
+    },
+    opacity: {
+      duration: 0.5
+    }
+  }}
+/>
 
           <p className="brand-slogan">
             Gestão inteligente <br />
@@ -109,22 +122,8 @@ export default function BrandPanel() {
           </div>
         </div>
       </div>
+ <AnimatedWaves />
 
-<motion.img
-  src={remaihWaves}
-  alt=""
-  className="brand-waves"
-  animate={{
-    y: [0, -8, 0, 6, 0],
-    scaleX: [1, 1.025, 1, 0.985, 1],
-    scaleY: [1, 1.01, 1, 0.995, 1]
-  }}
-  transition={{
-    duration: 10,
-    repeat: Infinity,
-    ease: "easeInOut"
-  }}
-/>
     </section>
   );
 }

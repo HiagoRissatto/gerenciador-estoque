@@ -49,6 +49,8 @@
 
 .brand-content {
   max-width: 430px;
+    position: relative;
+  z-index: 3;
 }
 
 .brand-logo {
