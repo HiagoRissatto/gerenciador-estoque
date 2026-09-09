@@ -1,4 +1,4 @@
-import { findAllProducts, saveProduct, updateProductById, deleteProductById,findProductById } from "../repositories/productRepository.js";
+import { findAllProducts, saveProduct, updateProductById, deleteProductById,findProductById, findLowStockProducts  } from "../repositories/productRepository.js";
 import type { Product } from "../types/product.js";
 export async function getProducts(){
 return await findAllProducts();
@@ -18,4 +18,8 @@ export async function deleteExistingProduct(id:string) {
 
 export async function getProductByIdService(id:string){
     return await findProductById(id);
+}
+
+export async function getLowStockProductsService() {
+    return await findLowStockProducts();
 }
