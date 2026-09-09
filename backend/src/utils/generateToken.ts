@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 
 export function generateToken(
   payload: {
-    id: number;
+    id: string;
     email: string;
     role: "admin" | "funcionario";
   }

@@ -14,7 +14,7 @@ export async function saveStockMovement(client: PoolClient, movement: StockMovem
     return insert.rows[0]
 }
 
-export async function updateProductQuantity(client: PoolClient, productId: number, newQuantity: number) {
+export async function updateProductQuantity(client: PoolClient, productId: string, newQuantity: number) {
     const update = await client.query(
         "UPDATE products SET quantidade = $1 WHERE id = $2 RETURNING *",[
             newQuantity,

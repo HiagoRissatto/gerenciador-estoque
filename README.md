@@ -286,6 +286,31 @@ DB_NAME=
 
 ---
 
+# Supabase
+
+O backend pode usar o PostgreSQL hospedado no Supabase por meio da variável
+`DATABASE_URL`. O frontend não acessa o banco diretamente; ele continua
+comunicando-se com a API do backend.
+
+1. Crie um projeto no Supabase.
+2. Abra o **SQL Editor** e execute o conteúdo de
+   `backend/database/schema.sql`.
+3. Em **Project Settings > Database**, copie a connection string do modo
+   **Session pooler** ou da conexão direta.
+4. Crie `backend/.env` com:
+
+```env
+DATABASE_URL=postgresql://postgres:[PASSWORD]@[HOST]:5432/postgres
+DB_SSL=true
+JWT_SECRET=defina-um-segredo-forte
+```
+
+A conexão do backend habilita SSL automaticamente quando `DATABASE_URL` é
+usada. Como as movimentações utilizam transações, não utilize o modo
+transaction pooler na porta `6543`.
+
+---
+
 # Segurança
 
 Um dos pontos considerados durante o desenvolvimento foi o tratamento de informações sensíveis.

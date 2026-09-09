@@ -1,6 +1,5 @@
 import "./BrandPanel.css";
 import remaihDrop from "../../assets/remaih-gota.svg";
-import remaihWaves from "../../assets/remaih-waves.svg";
 import AnimatedWaves from "../brand/AnimatedWaves";
 import { motion } from "motion/react";
 export default function BrandPanel() {

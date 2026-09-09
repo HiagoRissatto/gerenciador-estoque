@@ -12,6 +12,7 @@ import {
 } from "react-icons/fi";
 
 import { useNavigate } from "react-router-dom";
+import { API_URL } from "../../services/api";
 
 import "./LoginForm.css";
 
@@ -53,7 +54,7 @@ export default function LoginForm({
 
     try {
       const response = await fetch(
-        "http://localhost:3000/usuarios/login",
+        `${API_URL}/usuarios/login`,
         {
           method: "POST",
 
@@ -68,12 +69,14 @@ export default function LoginForm({
         }
       );
 
-      const data = await response.json();
+      const data = (await response.json().catch(() => ({}))) as {
+        message?: string;
+      };
 
       if (!response.ok) {
         setError(
           data.message ||
-          "Não foi possível realizar o login."
+          `Não foi possível realizar o login (erro ${response.status}).`
         );
 
         return;
@@ -87,7 +90,7 @@ export default function LoginForm({
       navigate("/dashboard");
     } catch {
       setError(
-        "Não foi possível conectar ao servidor."
+        "Não foi possível conectar ao servidor. Verifique se a API está em execução."
       );
     } finally {
       setLoading(false);
