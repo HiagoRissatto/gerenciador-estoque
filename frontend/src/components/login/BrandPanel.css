@@ -2,23 +2,60 @@
   position: relative;
   min-height: 100vh;
   background:
-    linear-gradient(
-      180deg,
-      rgba(0, 122, 164, 0.25),
-      rgba(0, 36, 74, 0.9)
-    ),
-    linear-gradient(
-      135deg,
-      #0587a8,
-      #003a67 55%,
-      #002947
-    );
+    linear-gradient(135deg, #087b9e, #00345d 58%, #002947);
 
   border-top-right-radius: 70px;
   border-bottom-right-radius: 70px;
 
   overflow: hidden;
   color: white;
+}
+
+.brand-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.5;
+  background:
+    radial-gradient(ellipse at 18% 22%, rgba(83, 216, 224, 0.3), transparent 24%),
+    repeating-radial-gradient(
+      ellipse at 65% 42%,
+      rgba(105, 220, 223, 0.22) 0 2px,
+      transparent 3px 22px
+    ),
+    repeating-radial-gradient(
+      ellipse at 42% 75%,
+      rgba(0, 25, 73, 0.28) 0 3px,
+      transparent 4px 28px
+    );
+  background-size: 130% 115%, 145% 75%, 160% 80%;
+  background-position: 0 0, 0 10%, 20% 80%;
+  mix-blend-mode: screen;
+  animation: water-shimmer 12s ease-in-out infinite alternate;
+}
+
+.brand-panel::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 27%;
+  height: 74px;
+  pointer-events: none;
+  border-bottom-left-radius: 74px;
+  background: #42d1ca;
+  opacity: 0.95;
+}
+
+@keyframes water-shimmer {
+  from {
+    transform: translate3d(-1%, -1%, 0) scale(1);
+  }
+
+  to {
+    transform: translate3d(1%, 1%, 0) scale(1.06);
+  }
 }
 .brand-waves {
   position: absolute;
