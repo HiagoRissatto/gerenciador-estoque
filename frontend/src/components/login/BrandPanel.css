@@ -4,8 +4,8 @@
   background:
     linear-gradient(
       135deg,
-      rgba(0, 56, 91, 0.38),
-      rgba(0, 35, 72, 0.74)
+      rgba(4, 28, 42, 0.72),
+      rgba(2, 16, 31, 0.85)
     ),
     linear-gradient(135deg, #087b9e, #00345d 58%, #002947);
 
@@ -13,7 +13,13 @@
   border-bottom-right-radius: 70px;
 
   overflow: hidden;
-  color: white;
+  color: #f5fbff;
+}
+
+.brand-panel-inner {
+  position: relative;
+  z-index: 2;
+  min-height: 100vh;
 }
 
 .brand-panel::before {
@@ -22,9 +28,31 @@
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  background: url("../../assets/Oceano.png") center / cover no-repeat;
+  background: url("../../assets/Oceano.jpg") center / cover no-repeat;
+  filter: saturate(1.2) contrast(1.15) brightness(0.78);
   animation: ocean-drift 18s ease-in-out infinite alternate;
   will-change: background-position;
+}
+
+.brand-panel::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(1, 12, 18, 0.8) 0%,
+      rgba(1, 12, 18, 0.5) 26%,
+      rgba(1, 12, 18, 0.25) 52%,
+      rgba(1, 12, 18, 0.58) 100%
+    ),
+    radial-gradient(
+      ellipse at center,
+      rgba(255, 220, 150, 0.18),
+      rgba(255, 220, 150, 0) 38%
+    );
 }
 
 @keyframes ocean-drift {
@@ -147,8 +175,9 @@
 
 .brand-content {
   max-width: 430px;
-    position: relative;
+  position: relative;
   z-index: 3;
+  text-shadow: 0 0 20px rgba(0, 0, 0, 0.22), 0 6px 18px rgba(0, 0, 0, 0.45);
 }
 
 .brand-logo {
@@ -160,34 +189,95 @@
 .brand-drop {
   width: 68px;
   height: 68px;
-
   object-fit: contain;
-
   margin-bottom: 1rem;
+  filter: drop-shadow(0 8px 18px rgba(10, 196, 214, 0.6));
 }
 
-.brand-logo h1 {
+.brand-title {
+  display: inline-flex;
+  align-items: center;
   font-size: 4rem;
-  font-weight: 700;
+  font-weight: 900;
   margin: 0;
   letter-spacing: -2px;
+  color: #ffffff;
+  line-height: 1;
+  text-shadow: 0 0 18px rgba(255, 255, 255, 0.35), 0 6px 20px rgba(0, 0, 0, 0.6);
+}
+
+.brand-letter {
+  display: inline-block;
+  white-space: pre;
 }
 
 .brand-line {
-  height: 3px;
-  background: #32ddd0;
+  position: relative;
+  width: 0;
+  height: 5px;
   margin: 2rem 0;
-  border-radius: 20px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(138, 250, 245, 0.7), rgba(88, 213, 255, 1), rgba(138, 250, 245, 0.75));
+  box-shadow:
+    0 0 14px rgba(94, 247, 241, 0.8),
+    0 0 28px rgba(88, 213, 255, 0.32),
+    inset 0 1px 1px rgba(255, 255, 255, 0.5);
+  overflow: hidden;
+}
+
+.brand-line::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.05));
+  opacity: 0.65;
+}
+
+.brand-line::after {
+  content: "";
+  position: absolute;
+  top: -30%;
+  left: -18%;
+  width: 28%;
+  height: 160%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.9), transparent);
+  transform: skewX(-26deg);
+  animation: premium-line-sheen 3.2s ease-in-out infinite;
+}
+
+@keyframes premium-line-sheen {
+  0% {
+    transform: translateX(-220%) skewX(-26deg);
+    opacity: 0;
+  }
+
+  25% {
+    opacity: 1;
+  }
+
+  60% {
+    transform: translateX(380%) skewX(-26deg);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateX(380%) skewX(-26deg);
+    opacity: 0;
+  }
 }
 
 .brand-slogan {
   font-size: 1.6rem;
   line-height: 1.4;
   margin-bottom: 3rem;
+  color: #f2faff;
+  font-weight: 800;
+  text-shadow: 0 0 18px rgba(24, 180, 228, 0.18), 0 6px 18px rgba(0, 0, 0, 0.5);
 }
 
 .brand-slogan span {
-  color: #2ed9ba;
+  color: #7af5ee;
 }
 
 .brand-features {
@@ -220,11 +310,14 @@
 .brand-feature h3 {
   margin: 0 0 0.4rem;
   font-size: 1.05rem;
-  font-weight: 700;
+  font-weight: 800;
+  color: #ffffff;
+  text-shadow: 0 3px 12px rgba(0, 0, 0, 0.45);
 }
 
 .brand-feature p {
   margin: 0;
   line-height: 1.6;
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(236, 246, 255, 1);
+  text-shadow: 0 3px 12px rgba(0, 0, 0, 0.4);
 }
