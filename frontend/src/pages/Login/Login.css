@@ -90,15 +90,19 @@
 }
 @media (min-width: 769px) and (max-height: 850px) {
   .auth-form {
-    overflow-y: auto;
-    align-items: flex-start;
+    overflow: hidden;
+    align-items: center;
 
     padding-top: 1.5rem;
     padding-bottom: 1.5rem;
   }
 
   .auth-form-content {
-    min-height: 100%;
+    min-height: 0;
+  }
+
+  .auth-form:has(.register-card) {
+    overflow-y: auto;
     align-items: flex-start;
   }
 }
