@@ -3,7 +3,7 @@ import Login from "./pages/Login/Login.js";
 import {BrowserRouter, Routes, Route} from "react-router-dom"
 import DashBoard from "./pages/Dashboard/Dashborad.js"
 import ProtectedRoute from "./components/auth/ProtectedRoute";
-import './css/app.module.css';
+import './css/app.module.css'; 
 
 function App() {
   return (
