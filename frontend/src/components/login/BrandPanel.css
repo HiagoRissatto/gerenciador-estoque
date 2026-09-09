@@ -2,6 +2,11 @@
   position: relative;
   min-height: 100vh;
   background:
+    linear-gradient(
+      135deg,
+      rgba(0, 56, 91, 0.38),
+      rgba(0, 35, 72, 0.74)
+    ),
     linear-gradient(135deg, #087b9e, #00345d 58%, #002947);
 
   border-top-right-radius: 70px;
@@ -15,129 +20,121 @@
   content: "";
   position: absolute;
   inset: 0;
+  z-index: 0;
   pointer-events: none;
-  opacity: 0.5;
-  background:
-    radial-gradient(ellipse at 18% 22%, rgba(83, 216, 224, 0.3), transparent 24%),
-    repeating-radial-gradient(
-      ellipse at 65% 42%,
-      rgba(105, 220, 223, 0.22) 0 2px,
-      transparent 3px 22px
-    ),
-    repeating-radial-gradient(
-      ellipse at 42% 75%,
-      rgba(0, 25, 73, 0.28) 0 3px,
-      transparent 4px 28px
-    );
-  background-size: 130% 115%, 145% 75%, 160% 80%;
-  background-position: 0 0, 0 10%, 20% 80%;
-  mix-blend-mode: screen;
-  animation: water-shimmer 12s ease-in-out infinite alternate;
+  background: url("../../assets/Oceano.png") center / cover no-repeat;
+  animation: ocean-drift 18s ease-in-out infinite alternate;
+  will-change: background-position;
 }
 
-.brand-panel::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 27%;
-  height: 74px;
-  pointer-events: none;
-  border-bottom-left-radius: 74px;
-  background: #42d1ca;
-  opacity: 0.95;
+@keyframes ocean-drift {
+  0% {
+    background-position: 48% 48%;
+  }
+
+  50% {
+    background-position: 53% 52%;
+  }
+
+  100% {
+    background-position: 47% 54%;
+  }
 }
 
-.water-ripples {
+.rising-drops {
   position: absolute;
-  inset: -8% -5%;
-  width: 110%;
-  height: 116%;
+  inset: 0;
   z-index: 1;
+  overflow: hidden;
   pointer-events: none;
-  opacity: 0.38;
-  filter: blur(0.4px);
 }
 
-.water-ripple {
-  fill: none;
-  stroke: rgba(138, 239, 235, 0.72);
-  stroke-width: 2.2;
-  stroke-linecap: round;
-  vector-effect: non-scaling-stroke;
-  transform-origin: center;
-}
-
-.water-ripple-one {
-  animation: ripple-drift-one 11s ease-in-out infinite alternate;
-}
-
-.water-ripple-two {
-  animation: ripple-drift-two 14s ease-in-out infinite alternate;
-  opacity: 0.65;
-}
-
-.water-ripple-three {
-  animation: ripple-drift-three 17s ease-in-out infinite alternate;
-  opacity: 0.5;
-}
-
-@keyframes ripple-drift-one {
-  from {
-    transform: translate3d(-20px, 10px, 0) scaleX(0.96);
-  }
-
-  to {
-    transform: translate3d(24px, -14px, 0) scaleX(1.06);
-  }
-}
-
-@keyframes ripple-drift-two {
-  from {
-    transform: translate3d(28px, -12px, 0) scaleX(1.05);
-  }
-
-  to {
-    transform: translate3d(-32px, 18px, 0) scaleX(0.94);
-  }
-}
-
-@keyframes ripple-drift-three {
-  from {
-    transform: translate3d(-18px, 16px, 0) scaleX(0.94);
-  }
-
-  to {
-    transform: translate3d(22px, -10px, 0) scaleX(1.05);
-  }
-}
-
-@keyframes water-shimmer {
-  from {
-    transform: translate3d(-1%, -1%, 0) scale(1);
-  }
-
-  to {
-    transform: translate3d(1%, 1%, 0) scale(1.06);
-  }
-}
-.brand-waves {
+.rising-drop {
   position: absolute;
-  left: 0;
-  bottom: 0;
-
-  width: 100%;
-  height: 20%;
-
-  object-fit: cover;
-  object-position: bottom;
-
-  z-index: 1;
-
-  pointer-events: none;
+  bottom: -24px;
+  width: 9px;
+  height: 9px;
+  border: 1px solid rgba(190, 247, 244, 0.7);
+  border-radius: 50% 50% 50% 0;
+  background: rgba(151, 238, 239, 0.24);
+  box-shadow: 0 0 10px rgba(145, 238, 237, 0.25);
+  transform: rotate(-45deg);
+  animation: rise-and-fade 8s linear infinite;
 }
 
+.rising-drop-1 {
+  left: 18%;
+  animation-delay: -1s;
+  animation-duration: 8s;
+}
 
+.rising-drop-2 {
+  left: 34%;
+  width: 6px;
+  height: 6px;
+  animation-delay: -5s;
+  animation-duration: 10s;
+}
+
+.rising-drop-3 {
+  left: 51%;
+  width: 12px;
+  height: 12px;
+  animation-delay: -3s;
+  animation-duration: 12s;
+}
+
+.rising-drop-4 {
+  left: 67%;
+  width: 7px;
+  height: 7px;
+  animation-delay: -7s;
+  animation-duration: 9s;
+}
+
+.rising-drop-5 {
+  left: 79%;
+  width: 5px;
+  height: 5px;
+  animation-delay: -4s;
+  animation-duration: 11s;
+}
+
+.rising-drop-6 {
+  left: 43%;
+  width: 8px;
+  height: 8px;
+  animation-delay: -8s;
+  animation-duration: 13s;
+}
+
+.rising-drop-7 {
+  left: 88%;
+  width: 10px;
+  height: 10px;
+  animation-delay: -2s;
+  animation-duration: 10s;
+}
+
+@keyframes rise-and-fade {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 0, 0) rotate(-45deg) scale(0.7);
+  }
+
+  15% {
+    opacity: 0.85;
+  }
+
+  55% {
+    transform: translate3d(18px, -45vh, 0) rotate(-45deg) scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate3d(-14px, -115vh, 0) rotate(-45deg) scale(0.8);
+  }
+}
 
 .brand-overlay {
   position: relative;
