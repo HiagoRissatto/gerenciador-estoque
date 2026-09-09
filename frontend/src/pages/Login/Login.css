@@ -11,6 +11,12 @@
   background: #f8fbfc;
 }
 
+html,
+body,
+#root {
+  overflow: hidden;
+}
+
 .auth-brand,
 .auth-form {
   width: 100%;
@@ -49,6 +55,12 @@
 /* MOBILE */
 
 @media (max-width: 768px) {
+  html,
+  body,
+  #root {
+    overflow: auto;
+  }
+
   .auth-page {
     display: flex;
     flex-direction: column;
