@@ -29,12 +29,16 @@ export function authMiddleware(
   }
 
   try {
-    const decoded = jwt.verify(token, secret);
+    const decoded = jwt.verify(token, secret) as {
+      id: string;
+      email: string;
+      role: "admin" | "funcionario";
+    };
 
-    (req as any).user = decoded;
+    req.user = decoded;
 
     next();
-  } catch (error) {
+  } catch {
     return res.status(401).json({
       error: "Token inválido"
     });
