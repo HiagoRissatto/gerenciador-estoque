@@ -58,7 +58,15 @@ body,
   html,
   body,
   #root {
-    overflow: auto;
+    height: auto;
+    min-height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  body {
+    display: block;
   }
 
   .auth-page {
@@ -69,8 +77,7 @@ body,
     min-height: 100dvh;
     height: auto;
 
-    overflow-x: hidden;
-    overflow-y: auto;
+    overflow: visible;
   }
 
   .auth-brand {
@@ -89,14 +96,15 @@ body,
     order: 2;
 
     width: 100%;
-    min-height: 100dvh;
+    min-height: auto;
     height: auto;
 
-    padding: 1.25rem;
+    padding: 0.75rem 0.8rem 1rem;
 
     display: flex;
     justify-content: center;
     align-items: flex-start;
+    overflow: visible;
   }
 
   .auth-form-content {

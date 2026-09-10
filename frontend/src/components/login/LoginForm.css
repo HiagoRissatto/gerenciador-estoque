@@ -117,10 +117,24 @@
     height: 52px;
     border: none;
     border-radius: 14px;
-    background: linear-gradient(90deg, #169ec1, #32cfa7);
+    background: linear-gradient(90deg, #169ec1 0%, #2dc9be 30%, #32cfa7 60%, #27b7d1 100%);
+    background-size: 200% 100%;
+    background-position: 0% 50%;
     color: white;
     font-weight: 700;
     font-size: 1rem;
+    box-shadow: 0 10px 22px rgba(17, 155, 177, 0.24);
+    transition: background-position 0.7s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.login-button:hover {
+    background-position: 100% 50%;
+    transform: translateY(-1px);
+    box-shadow: 0 14px 24px rgba(17, 155, 177, 0.28);
+}
+
+.login-button:active {
+    transform: translateY(0);
 }
 .login-divider {
     display: flex;
