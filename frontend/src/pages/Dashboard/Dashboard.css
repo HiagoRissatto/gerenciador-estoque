@@ -430,6 +430,65 @@
   font-size: 0.92rem;
 }
 
+.sidebar-top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.sidebar-collapse-button,
+.mobile-menu-button {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.04);
+  color: #ecf9ff;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.sidebar-collapse-button:hover,
+.mobile-menu-button:hover {
+  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.dashboard-sidebar.collapsed {
+  width: 96px;
+  padding-inline: 0.8rem;
+}
+
+.dashboard-sidebar.collapsed .nav-button,
+.dashboard-sidebar.collapsed .sidebar-brand,
+.dashboard-sidebar.collapsed .sidebar-footer-box {
+  justify-content: center;
+}
+
+.dashboard-sidebar.collapsed .nav-button {
+  padding-inline: 0.7rem;
+}
+
+.dashboard-sidebar.collapsed .nav-button span,
+.dashboard-sidebar.collapsed .sidebar-brand > div:not(.sidebar-brand-mark),
+.dashboard-sidebar.collapsed .sidebar-footer-box span {
+  display: none;
+}
+
+.mobile-menu-button {
+  display: none;
+}
+
+.header-title-group {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
 @media (max-width: 1024px) {
   .dashboard-shell {
     flex-direction: column;
@@ -496,5 +555,13 @@
   .dashboard-footer {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .mobile-menu-button {
+    display: grid;
+  }
+
+  .sidebar-collapse-button {
+    display: none;
   }
 }
