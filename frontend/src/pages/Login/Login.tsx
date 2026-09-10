@@ -33,7 +33,7 @@ export default function Login() {
     x: isMobile
       ? 0
       : isRegistering
-        ? "100%"
+            ? "8%"
         : "0%"
   }}
   transition={{
@@ -50,15 +50,14 @@ export default function Login() {
     x: isMobile
       ? 0
       : isRegistering
-        ? "-100%"
+        ? "-8%"
         : "0%"
   }}
   transition={{
     duration: 0.7,
     ease: "easeInOut"
   }}
->
-        <AnimatePresence mode="wait">
+>        <AnimatePresence mode="wait">
           {isRegistering ? (
             <motion.div
               key="register"

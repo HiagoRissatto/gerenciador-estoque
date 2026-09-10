@@ -15,12 +15,18 @@ import {
 import { Bar, Doughnut, Line } from "react-chartjs-2";
 import {
   FiBarChart2,
+  FiChevronLeft,
+  FiChevronRight,
   FiEdit3,
   FiEye,
+  FiFilter,
   FiLogOut,
+  FiMenu,
   FiPackage,
   FiPlusCircle,
-  FiTrendingUp
+  FiSearch,
+  FiTrendingUp,
+  FiX
 } from "react-icons/fi";
 
 import { API_URL } from "../../services/api";
@@ -48,6 +54,7 @@ type Product = {
 };
 
 type MenuOption = "dashboard" | "cadastro" | "editar" | "visualizar";
+type ChartPeriod = "7" | "30" | "all";
 
 type ProductForm = {
   nome: string;
@@ -70,14 +77,21 @@ const currencyFormatter = new Intl.NumberFormat("pt-BR", {
   currency: "BRL"
 });
 
+const pageSize = 5;
+
 export default function Dashboard() {
   const navigate = useNavigate();
   const [menu, setMenu] = useState<MenuOption>("dashboard");
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  const [chartPeriod, setChartPeriod] = useState<ChartPeriod>("all");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
   const [products, setProducts] = useState<Product[]>([]);
   const [form, setForm] = useState<ProductForm>(emptyProductForm);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [statusMessage, setStatusMessage] = useState("");
+  const [deleteProduct, setDeleteProduct] = useState<Product | null>(null);
 
   const fetchProducts = async () => {
     const token = localStorage.getItem("token");
@@ -109,6 +123,10 @@ export default function Dashboard() {
     void fetchProducts();
   }, [navigate]);
 
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm]);
+
   const stats = useMemo(() => {
     const totalProdutos = products.length;
     const totalEstoque = products.reduce(
@@ -131,8 +149,35 @@ export default function Dashboard() {
     };
   }, [products]);
 
+  const filteredProducts = useMemo(() => {
+    if (!searchTerm.trim()) {
+      return products;
+    }
+
+    const term = searchTerm.toLowerCase();
+
+    return products.filter(
+      (product) =>
+        product.nome.toLowerCase().includes(term) ||
+        product.marca.toLowerCase().includes(term)
+    );
+  }, [products, searchTerm]);
+
+  const totalPages = Math.max(1, Math.ceil(filteredProducts.length / pageSize));
+
+  const paginatedProducts = useMemo(() => {
+    const startIndex = (currentPage - 1) * pageSize;
+    return filteredProducts.slice(startIndex, startIndex + pageSize);
+  }, [filteredProducts, currentPage]);
+
+  const chartScopeProducts = useMemo(() => {
+    if (chartPeriod === "7") return products.slice(0, 7);
+    if (chartPeriod === "30") return products.slice(0, 30);
+    return products;
+  }, [chartPeriod, products]);
+
   const barChartData = useMemo(() => {
-    const chartProducts = products.slice(0, 6);
+    const chartProducts = chartScopeProducts.slice(0, 6);
 
     return {
       labels: chartProducts.map((product) => product.nome),
@@ -148,14 +193,15 @@ export default function Dashboard() {
             "#7dd3fc",
             "#34d399"
           ],
-          borderRadius: 10
+          borderRadius: 10,
+          borderSkipped: false
         }
       ]
     };
-  }, [products]);
+  }, [chartScopeProducts]);
 
   const lineChartData = useMemo(() => {
-    const chartProducts = products.slice(0, 7);
+    const chartProducts = chartScopeProducts.slice(0, 7);
 
     return {
       labels: chartProducts.map((product) => product.nome),
@@ -182,7 +228,7 @@ export default function Dashboard() {
         }
       ]
     };
-  }, [products]);
+  }, [chartScopeProducts]);
 
   const doughnutChartData = useMemo(() => {
     return {
@@ -288,7 +334,11 @@ export default function Dashboard() {
     }
   }
 
-  async function handleDelete(productId: string) {
+  async function handleDeleteProduct() {
+    if (!deleteProduct) {
+      return;
+    }
+
     const token = localStorage.getItem("token");
 
     if (!token) {
@@ -296,13 +346,8 @@ export default function Dashboard() {
       return;
     }
 
-    const shouldDelete = window.confirm("Deseja excluir este produto?");
-    if (!shouldDelete) {
-      return;
-    }
-
     try {
-      const response = await fetch(`${API_URL}/produtos/${productId}`, {
+      const response = await fetch(`${API_URL}/produtos/${deleteProduct.id}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`
@@ -316,6 +361,7 @@ export default function Dashboard() {
       setStatusMessage("Produto removido com sucesso.");
       setForm(emptyProductForm);
       setEditingId(null);
+      setDeleteProduct(null);
       await fetchProducts();
     } catch (error) {
       setStatusMessage(
@@ -326,13 +372,26 @@ export default function Dashboard() {
 
   return (
     <div className="dashboard-shell">
-      <aside className="dashboard-sidebar">
-        <div className="sidebar-brand">
-          <div className="sidebar-brand-mark">R</div>
-          <div>
-            <span className="sidebar-brand-label">Remaih</span>
-            <strong>Estoque</strong>
+      <aside className={isSidebarCollapsed ? "dashboard-sidebar collapsed" : "dashboard-sidebar"}>
+        <div className="sidebar-top-row">
+          <div className="sidebar-brand">
+            <div className="sidebar-brand-mark">R</div>
+            {!isSidebarCollapsed && (
+              <div>
+                <span className="sidebar-brand-label">Remaih</span>
+                <strong>Estoque</strong>
+              </div>
+            )}
           </div>
+
+          <button
+            type="button"
+            className="sidebar-collapse-button"
+            onClick={() => setIsSidebarCollapsed((previous) => !previous)}
+            aria-label={isSidebarCollapsed ? "Expandir menu" : "Recolher menu"}
+          >
+            {isSidebarCollapsed ? <FiChevronRight /> : <FiChevronLeft />}
+          </button>
         </div>
 
         <nav className="sidebar-nav">
@@ -342,7 +401,7 @@ export default function Dashboard() {
             onClick={() => setMenu("dashboard")}
           >
             <FiBarChart2 />
-            Dashboard
+            {!isSidebarCollapsed && <span>Dashboard</span>}
           </button>
 
           <button
@@ -355,7 +414,7 @@ export default function Dashboard() {
             }}
           >
             <FiPlusCircle />
-            Cadastro
+            {!isSidebarCollapsed && <span>Cadastro</span>}
           </button>
 
           <button
@@ -364,7 +423,7 @@ export default function Dashboard() {
             onClick={() => setMenu("editar")}
           >
             <FiEdit3 />
-            Editar
+            {!isSidebarCollapsed && <span>Editar</span>}
           </button>
 
           <button
@@ -373,21 +432,34 @@ export default function Dashboard() {
             onClick={() => setMenu("visualizar")}
           >
             <FiEye />
-            Visualizar
+            {!isSidebarCollapsed && <span>Visualizar</span>}
           </button>
         </nav>
 
-        <div className="sidebar-footer-box">
-          <FiTrendingUp />
-          <span>Operação em tempo real</span>
-        </div>
+        {!isSidebarCollapsed && (
+          <div className="sidebar-footer-box">
+            <FiTrendingUp />
+            <span>Operação em tempo real</span>
+          </div>
+        )}
       </aside>
 
       <div className="dashboard-main">
         <header className="dashboard-header">
-          <div>
-            <p className="dashboard-eyebrow">Painel administrativo</p>
-            <h1>Gestão de produtos</h1>
+          <div className="header-title-group">
+            <button
+              type="button"
+              className="mobile-menu-button"
+              onClick={() => setIsSidebarCollapsed((previous) => !previous)}
+              aria-label="Abrir menu"
+            >
+              <FiMenu />
+            </button>
+
+            <div>
+              <p className="dashboard-eyebrow">Painel administrativo</p>
+              <h1>Gestão de produtos</h1>
+            </div>
           </div>
 
           <button type="button" className="dashboard-logout-button" onClick={handleLogout}>
@@ -403,24 +475,28 @@ export default function Dashboard() {
             <>
               <section className="dashboard-summary">
                 <article className="dashboard-stat-card accent">
+                  <div className="stat-icon"><FiPackage /></div>
                   <span>Total de produtos</span>
                   <strong>{stats.totalProdutos}</strong>
                   <small>Itens cadastrados</small>
                 </article>
 
                 <article className="dashboard-stat-card">
+                  <div className="stat-icon"><FiTrendingUp /></div>
                   <span>Estoque total</span>
                   <strong>{stats.totalEstoque}</strong>
                   <small>Unidades em estoque</small>
                 </article>
 
-                <article className="dashboard-stat-card">
+                <article className="dashboard-stat-card warning">
+                  <div className="stat-icon"><FiFilter /></div>
                   <span>Estoque baixo</span>
                   <strong>{stats.estoqueBaixo}</strong>
                   <small>Produtos em alerta</small>
                 </article>
 
                 <article className="dashboard-stat-card">
+                  <div className="stat-icon"><FiBarChart2 /></div>
                   <span>Valor em estoque</span>
                   <strong>{currencyFormatter.format(stats.valorTotal)}</strong>
                   <small>Estimado</small>
@@ -431,11 +507,24 @@ export default function Dashboard() {
                 <div className="chart-card large">
                   <div className="chart-header">
                     <h2>Quantidade por produto</h2>
+                    <div className="chart-filter-group">
+                      {(["7", "30", "all"] as ChartPeriod[]).map((period) => (
+                        <button
+                          key={period}
+                          type="button"
+                          className={chartPeriod === period ? "chart-filter active" : "chart-filter"}
+                          onClick={() => setChartPeriod(period)}
+                        >
+                          {period === "all" ? "Tudo" : `${period}d`}
+                        </button>
+                      ))}
+                    </div>
                   </div>
                   <Bar
                     data={barChartData}
                     options={{
                       responsive: true,
+                      maintainAspectRatio: false,
                       plugins: {
                         legend: {
                           display: false
@@ -466,10 +555,15 @@ export default function Dashboard() {
                     data={doughnutChartData}
                     options={{
                       responsive: true,
+                      maintainAspectRatio: false,
                       cutout: "62%",
                       plugins: {
                         legend: {
-                          position: "bottom"
+                          position: "bottom",
+                          labels: {
+                            usePointStyle: true,
+                            pointStyle: "circle"
+                          }
                         }
                       }
                     }}
@@ -484,6 +578,7 @@ export default function Dashboard() {
                     data={lineChartData}
                     options={{
                       responsive: true,
+                      maintainAspectRatio: false,
                       plugins: {
                         legend: {
                           position: "bottom"
@@ -593,12 +688,26 @@ export default function Dashboard() {
 
           {menu === "visualizar" && (
             <section className="panel-card table-panel">
-              <div className="panel-header">
+              <div className="panel-header table-header">
                 <div>
                   <p className="panel-kicker">Inventário</p>
                   <h2>Visualizar produtos</h2>
                 </div>
-                <span className="panel-badge">{products.length} itens</span>
+
+                <span className="panel-badge">{filteredProducts.length} itens</span>
+              </div>
+
+              <div className="table-toolbar">
+                <label className="search-field" htmlFor="product-search">
+                  <FiSearch />
+                  <input
+                    id="product-search"
+                    type="search"
+                    placeholder="Buscar por nome ou marca"
+                    value={searchTerm}
+                    onChange={(event) => setSearchTerm(event.target.value)}
+                  />
+                </label>
               </div>
 
               <div className="table-wrapper">
@@ -615,14 +724,14 @@ export default function Dashboard() {
                   </thead>
 
                   <tbody>
-                    {products.length === 0 ? (
+                    {paginatedProducts.length === 0 ? (
                       <tr>
                         <td colSpan={6} className="empty-state">
-                          Nenhum produto cadastrado.
+                          Nenhum produto encontrado.
                         </td>
                       </tr>
                     ) : (
-                      products.map((product) => (
+                      paginatedProducts.map((product) => (
                         <tr key={product.id}>
                           <td>{product.nome}</td>
                           <td>{product.marca}</td>
@@ -641,7 +750,7 @@ export default function Dashboard() {
                               <button
                                 type="button"
                                 className="action-button delete"
-                                onClick={() => handleDelete(product.id)}
+                                onClick={() => setDeleteProduct(product)}
                               >
                                 Excluir
                               </button>
@@ -653,6 +762,32 @@ export default function Dashboard() {
                   </tbody>
                 </table>
               </div>
+
+              {filteredProducts.length > 0 && (
+                <div className="pagination-wrapper">
+                  <button
+                    type="button"
+                    className="pagination-button"
+                    onClick={() => setCurrentPage((previous) => Math.max(1, previous - 1))}
+                    disabled={currentPage === 1}
+                  >
+                    Anterior
+                  </button>
+
+                  <span>
+                    Página {currentPage} de {totalPages}
+                  </span>
+
+                  <button
+                    type="button"
+                    className="pagination-button"
+                    onClick={() => setCurrentPage((previous) => Math.min(totalPages, previous + 1))}
+                    disabled={currentPage === totalPages}
+                  >
+                    Próxima
+                  </button>
+                </div>
+              )}
             </section>
           )}
         </main>
@@ -662,6 +797,32 @@ export default function Dashboard() {
           <span>Dashboard de estoque</span>
         </footer>
       </div>
+
+      {deleteProduct && (
+        <div className="delete-modal-backdrop" onClick={() => setDeleteProduct(null)}>
+          <div className="delete-modal" onClick={(event) => event.stopPropagation()}>
+            <div className="delete-modal-header">
+              <h3>Excluir produto</h3>
+              <button type="button" className="close-modal-button" onClick={() => setDeleteProduct(null)}>
+                <FiX />
+              </button>
+            </div>
+
+            <p>
+              Tem certeza que deseja excluir <strong>{deleteProduct.nome}</strong> do estoque?
+            </p>
+
+            <div className="delete-modal-actions">
+              <button type="button" className="secondary-button" onClick={() => setDeleteProduct(null)}>
+                Cancelar
+              </button>
+              <button type="button" className="danger-button" onClick={handleDeleteProduct}>
+                Excluir
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

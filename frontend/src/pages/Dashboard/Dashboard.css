@@ -287,18 +287,21 @@
 .product-form {
   display: grid;
   gap: 1rem;
+  min-width: 0;
 }
 
 .input-row {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1rem;
+  min-width: 0;
 }
 
 .input-group {
   display: flex;
   flex-direction: column;
   gap: 0.45rem;
+  min-width: 0;
 }
 
 .input-group label {
@@ -308,6 +311,7 @@
 
 .input-group input {
   width: 100%;
+  box-sizing: border-box;
   border: 1px solid #d9e7ee;
   background: #f8fbfd;
   border-radius: 12px;
@@ -457,12 +461,25 @@
     grid-template-columns: 1fr;
   }
 
-  .dashboard-summary {
+  .dashboard-summary,
+  .chart-grid {
     display: grid;
   }
 
-  .chart-grid {
+  .sidebar-nav {
     display: grid;
+  }
+
+  .input-group,
+  .product-form,
+  .panel-card,
+  .chart-card,
+  .dashboard-stat-card {
+    min-width: 0;
+  }
+
+  .input-group input {
+    min-width: 0;
   }
 
   .dashboard-footer {
