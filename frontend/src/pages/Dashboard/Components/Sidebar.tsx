@@ -2,7 +2,6 @@ import {
   FiBarChart2,
   FiChevronLeft,
   FiChevronRight,
-  FiEdit3,
   FiEye,
   FiPlusCircle,
   FiTrendingUp
@@ -107,26 +106,6 @@ export default function Sidebar({
           {!isCollapsed && (
             <span>
               Cadastro
-            </span>
-          )}
-        </button>
-
-        <button
-          type="button"
-          className={
-            menu === "editar"
-              ? "nav-button active"
-              : "nav-button"
-          }
-          onClick={() =>
-            onMenuChange("editar")
-          }
-        >
-          <FiEdit3 />
-
-          {!isCollapsed && (
-            <span>
-              Editar
             </span>
           )}
         </button>
