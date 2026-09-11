@@ -158,7 +158,13 @@ export default function DashboardCharts({
 
                             plugins: {
                                 legend: {
-                                    position: "bottom"
+                                    position: "bottom",
+
+                                    labels: {
+                                        usePointStyle: true,
+                                        boxWidth: 8,
+                                        padding: 12
+                                    }
                                 }
                             },
 
@@ -167,14 +173,34 @@ export default function DashboardCharts({
                                     beginAtZero: true,
 
                                     grid: {
-                                        color:
-                                            "rgba(148, 163, 184, 0.12)"
+                                        color: "rgba(148, 163, 184, 0.12)"
+                                    },
+
+                                    ticks: {
+                                        precision: 0
                                     }
                                 },
 
                                 x: {
                                     grid: {
                                         display: false
+                                    },
+
+                                    ticks: {
+                                        maxRotation: 0,
+                                        minRotation: 0,
+                                        autoSkip: true,
+                                        maxTicksLimit: 3,
+
+                                        callback(value) {
+                                            const label = this.getLabelForValue(
+                                                Number(value)
+                                            );
+
+                                            return label.length > 14
+                                                ? `${label.slice(0, 14)}…`
+                                                : label;
+                                        }
                                     }
                                 }
                             }
