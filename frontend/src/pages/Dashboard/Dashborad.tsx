@@ -63,11 +63,11 @@ type ProductForm = {
   valor: string;
   estoque_minimo: string;
 };
-interface CurrentUser{
+interface CurrentUser {
   id: string;
   nome: string;
   email: string;
-  role:"admin" | "funcionario";
+  role: "admin" | "funcionario";
 }
 
 const emptyProductForm: ProductForm = {
@@ -98,37 +98,37 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(false);
   const [statusMessage, setStatusMessage] = useState("");
   const [deleteProduct, setDeleteProduct] = useState<Product | null>(null);
- const [user, setUser] = useState<CurrentUser | null>(null);
-  
-useEffect(() => {
-  async function loadCurrentUser() {
-    const token = localStorage.getItem("token");
+  const [user, setUser] = useState<CurrentUser | null>(null);
 
-    if (!token) {
-      return;
-    }
+  useEffect(() => {
+    async function loadCurrentUser() {
+      const token = localStorage.getItem("token");
 
-    try {
-      const response = await fetch(`${API_URL}/usuarios/me`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error("Erro ao buscar usuário");
+      if (!token) {
+        return;
       }
 
-      const data = await response.json();
+      try {
+        const response = await fetch(`${API_URL}/usuarios/me`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
-      setUser(data.user);
-    } catch (error) {
-      console.error(error);
+        if (!response.ok) {
+          throw new Error("Erro ao buscar usuário");
+        }
+
+        const data = await response.json();
+
+        setUser(data.user);
+      } catch (error) {
+        console.error(error);
+      }
     }
-  }
 
-  loadCurrentUser();
-}, []);
+    loadCurrentUser();
+  }, []);
 
 
   const fetchProducts = async () => {
@@ -431,7 +431,8 @@ useEffect(() => {
             {isSidebarCollapsed ? <FiChevronRight /> : <FiChevronLeft />}
           </button>
         </div>
-
+        <p>{user?.email}</p>
+        <p>{user?.role}</p>
         <nav className="sidebar-nav">
           <button
             type="button"
