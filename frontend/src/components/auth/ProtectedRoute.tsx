@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
+
 import type { ReactNode } from "react";
+
 import { API_URL } from "../../services/api";
+import LoadingScreen from "../loading/LoadingScreen";
 
 interface ProtectedRouteProps {
   children: ReactNode;
@@ -10,7 +13,8 @@ interface ProtectedRouteProps {
 export default function ProtectedRoute({
   children
 }: ProtectedRouteProps) {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+  const [isAuthenticated, setIsAuthenticated] =
+    useState<boolean | null>(null);
 
   useEffect(() => {
     async function validateToken() {
@@ -43,11 +47,11 @@ export default function ProtectedRoute({
       }
     }
 
-    validateToken();
+    void validateToken();
   }, []);
 
   if (isAuthenticated === null) {
-    return <p>Carregando...</p>;
+    return <LoadingScreen />;
   }
 
   if (!isAuthenticated) {
