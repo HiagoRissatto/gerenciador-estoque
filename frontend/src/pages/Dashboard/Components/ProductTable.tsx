@@ -1,6 +1,5 @@
 import {
   FiEdit3,
-  FiEye,
   FiTrash2
 } from "react-icons/fi";
 
@@ -10,7 +9,6 @@ interface ProductTableProps {
   products: Product[];
   onEdit: (product: Product) => void;
   onDelete: (product: Product) => void;
-  onView?: (product: Product) => void;
   canManageProducts?: boolean;
 }
 
@@ -18,11 +16,10 @@ export default function ProductTable({
   products,
   onEdit,
   onDelete,
-  onView,
   canManageProducts = true
 }: ProductTableProps) {
   return (
-    <div className="product-table-container">
+    <div className="table-wrapper">
       <table className="product-table">
         <thead>
           <tr>
@@ -38,7 +35,7 @@ export default function ProductTable({
         <tbody>
           {products.length === 0 ? (
             <tr>
-              <td colSpan={6}>
+              <td colSpan={6} className="empty-state">
                 Nenhum produto encontrado.
               </td>
             </tr>
@@ -49,7 +46,15 @@ export default function ProductTable({
 
               return (
                 <tr key={product.id}>
-                  <td>{product.nome}</td>
+                  <td>
+                    <div className="product-name-cell">
+                      <div className="product-avatar">
+                        {product.nome.charAt(0).toUpperCase()}
+                      </div>
+
+                      <strong>{product.nome}</strong>
+                    </div>
+                  </td>
 
                   <td>{product.marca}</td>
 
@@ -57,16 +62,16 @@ export default function ProductTable({
                     <span
                       className={
                         lowStock
-                          ? "stock-status stock-status-low"
-                          : "stock-status"
+                          ? "stock-badge low"
+                          : "stock-badge normal"
                       }
                     >
                       {product.quantidade}
                     </span>
                   </td>
 
-                  <td>
-                    {product.valor.toLocaleString("pt-BR", {
+                  <td className="product-price">
+                    {Number(product.valor).toLocaleString("pt-BR", {
                       style: "currency",
                       currency: "BRL"
                     })}
@@ -75,37 +80,29 @@ export default function ProductTable({
                   <td>{product.estoque_minimo}</td>
 
                   <td>
-                    <div className="product-actions">
-                      {onView && (
+                    {canManageProducts && (
+                      <div className="action-buttons">
                         <button
                           type="button"
-                          onClick={() => onView(product)}
-                          aria-label={`Visualizar ${product.nome}`}
+                          className="action-button edit"
+                          onClick={() => onEdit(product)}
+                          aria-label={`Editar ${product.nome}`}
+                          title="Editar produto"
                         >
-                          <FiEye />
+                          <FiEdit3 />
                         </button>
-                      )}
 
-                      {canManageProducts && (
-                        <>
-                          <button
-                            type="button"
-                            onClick={() => onEdit(product)}
-                            aria-label={`Editar ${product.nome}`}
-                          >
-                            <FiEdit3 />
-                          </button>
-
-                          <button
-                            type="button"
-                            onClick={() => onDelete(product)}
-                            aria-label={`Excluir ${product.nome}`}
-                          >
-                            <FiTrash2 />
-                          </button>
-                        </>
-                      )}
-                    </div>
+                        <button
+                          type="button"
+                          className="action-button delete"
+                          onClick={() => onDelete(product)}
+                          aria-label={`Excluir ${product.nome}`}
+                          title="Excluir produto"
+                        >
+                          <FiTrash2 />
+                        </button>
+                      </div>
+                    )}
                   </td>
                 </tr>
               );
