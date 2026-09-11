@@ -63,6 +63,12 @@ type ProductForm = {
   valor: string;
   estoque_minimo: string;
 };
+interface CurrentUser{
+  id: string;
+  nome: string;
+  email: string;
+  role:"admin" | "funcionario";
+}
 
 const emptyProductForm: ProductForm = {
   nome: "",
@@ -92,6 +98,38 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(false);
   const [statusMessage, setStatusMessage] = useState("");
   const [deleteProduct, setDeleteProduct] = useState<Product | null>(null);
+ const [user, setUser] = useState<CurrentUser | null>(null);
+  
+useEffect(() => {
+  async function loadCurrentUser() {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      return;
+    }
+
+    try {
+      const response = await fetch(`${API_URL}/usuarios/me`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Erro ao buscar usuário");
+      }
+
+      const data = await response.json();
+
+      setUser(data.user);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  loadCurrentUser();
+}, []);
+
 
   const fetchProducts = async () => {
     const token = localStorage.getItem("token");
