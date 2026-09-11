@@ -362,7 +362,157 @@
   gap: 1rem;
   min-width: 0;
 }
+.form-panel {
+  max-width: 980px;
+  margin: 0 auto;
+}
 
+.product-form {
+  display: grid;
+  gap: 1.2rem;
+  min-width: 0;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+.input-group label {
+  font-weight: 700;
+  color: #294958;
+  font-size: 0.95rem;
+}
+
+.input-group input {
+  width: 100%;
+  box-sizing: border-box;
+
+  height: 48px;
+
+  border: 1px solid #d8e5eb;
+  border-radius: 12px;
+
+  background: #f8fbfd;
+  color: #123246;
+
+  padding: 0.8rem 0.95rem;
+
+  font: inherit;
+
+  outline: none;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.input-group input::placeholder {
+  color: #8ca1ab;
+}
+
+.input-group input:hover {
+  border-color: #c4d8e0;
+}
+
+.input-group input:focus {
+  border-color: #0ea5d0;
+  background: #ffffff;
+
+  box-shadow: 0 0 0 4px rgba(14, 165, 208, 0.08);
+}
+
+.input-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.product-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.75rem;
+
+  margin-top: 0.4rem;
+}
+
+.secondary-button,
+.primary-button {
+  min-height: 44px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0.8rem 1rem;
+
+  border-radius: 12px;
+
+  font-weight: 700;
+  font-size: 0.92rem;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.secondary-button {
+  border: 1px solid #d7e3e8;
+
+  background: #ffffff;
+  color: #365160;
+}
+
+.secondary-button:hover {
+  transform: translateY(-1px);
+
+  background: #f4f9fb;
+  border-color: #bfd3dc;
+}
+
+.primary-button {
+  border: none;
+
+  background: linear-gradient(135deg, #0ea5d0, #2ec4ae);
+
+  color: #ffffff;
+
+  box-shadow: 0 12px 20px rgba(15, 134, 169, 0.18);
+}
+
+.primary-button:hover:not(:disabled) {
+  transform: translateY(-1px);
+
+  box-shadow: 0 16px 24px rgba(15, 134, 169, 0.24);
+}
+
+.primary-button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .input-row {
+    grid-template-columns: 1fr;
+  }
+
+  .product-form-actions {
+    flex-direction: column-reverse;
+    align-items: stretch;
+  }
+
+  .product-form-actions button {
+    width: 100%;
+  }
+}
 .input-row {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
