@@ -1,4 +1,7 @@
-import { FiLogOut, FiMenu } from "react-icons/fi";
+import {
+  FiLogOut,
+  FiMenu
+} from "react-icons/fi";
 
 interface DashboardHeaderProps {
   isSidebarCollapsed: boolean;
