@@ -1,8 +1,8 @@
 import {
-  FiBox,
-  FiTrendingUp,
+  FiBarChart2,
   FiFilter,
-  FiBarChart2
+  FiPackage,
+  FiTrendingUp
 } from "react-icons/fi";
 
 interface DashboardStatsProps {
@@ -12,82 +12,62 @@ interface DashboardStatsProps {
   stockValue: number;
 }
 
+const currencyFormatter = new Intl.NumberFormat("pt-BR", {
+  style: "currency",
+  currency: "BRL"
+});
+
 export default function DashboardStats({
   totalProducts,
   totalStock,
   lowStock,
   stockValue
 }: DashboardStatsProps) {
-  const formattedStockValue = stockValue.toLocaleString("pt-BR", {
-    style: "currency",
-    currency: "BRL"
-  });
-
   return (
-    <section className="dashboard-stats">
-      <div className="stat-card stat-card-highlight">
-        <div className="stat-card-icon">
-          <FiBox />
+    <section className="dashboard-summary">
+      <article className="dashboard-stat-card accent">
+        <div className="stat-icon">
+          <FiPackage />
         </div>
 
-        <span className="stat-card-label">Total de produtos</span>
+        <span>Total de produtos</span>
+        <strong>{totalProducts}</strong>
+        <small>Itens cadastrados</small>
+      </article>
 
-        <strong className="stat-card-value">
-          {totalProducts}
-        </strong>
-
-        <span className="stat-card-description">
-          Itens cadastrados
-        </span>
-      </div>
-
-      <div className="stat-card">
-        <div className="stat-card-icon">
+      <article className="dashboard-stat-card">
+        <div className="stat-icon">
           <FiTrendingUp />
         </div>
 
-        <span className="stat-card-label">Estoque total</span>
+        <span>Estoque total</span>
+        <strong>{totalStock}</strong>
+        <small>Unidades em estoque</small>
+      </article>
 
-        <strong className="stat-card-value">
-          {totalStock}
-        </strong>
-
-        <span className="stat-card-description">
-          Unidades em estoque
-        </span>
-      </div>
-
-      <div className="stat-card">
-        <div className="stat-card-icon">
+      <article className="dashboard-stat-card warning">
+        <div className="stat-icon">
           <FiFilter />
         </div>
 
-        <span className="stat-card-label">Estoque baixo</span>
+        <span>Estoque baixo</span>
+        <strong>{lowStock}</strong>
+        <small>Produtos em alerta</small>
+      </article>
 
-        <strong className="stat-card-value">
-          {lowStock}
-        </strong>
-
-        <span className="stat-card-description">
-          Produtos em alerta
-        </span>
-      </div>
-
-      <div className="stat-card">
-        <div className="stat-card-icon">
+      <article className="dashboard-stat-card">
+        <div className="stat-icon">
           <FiBarChart2 />
         </div>
 
-        <span className="stat-card-label">Valor em estoque</span>
+        <span>Valor em estoque</span>
 
-        <strong className="stat-card-value">
-          {formattedStockValue}
+        <strong>
+          {currencyFormatter.format(stockValue)}
         </strong>
 
-        <span className="stat-card-description">
-          Estimado
-        </span>
-      </div>
+        <small>Estimado</small>
+      </article>
     </section>
   );
 }
