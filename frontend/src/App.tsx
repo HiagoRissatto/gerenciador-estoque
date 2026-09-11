@@ -1,4 +1,5 @@
 import Login from "./pages/Login/Login.js";
+import NotFound from "./pages/NotFound/NotFound.js";
 
 import {BrowserRouter, Routes, Route} from "react-router-dom"
 import DashBoard from "./pages/Dashboard/Dashborad.js"
@@ -11,6 +12,7 @@ function App() {
   <Routes>
     <Route path="/" element={<Login/>}/>
     <Route path="/dashboard" element={<ProtectedRoute><DashBoard/></ProtectedRoute>}/>
+    <Route path="*" element={<NotFound />} />
   </Routes>
 
   </BrowserRouter>
