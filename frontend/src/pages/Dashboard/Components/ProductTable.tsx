@@ -4,14 +4,7 @@ import {
   FiTrash2
 } from "react-icons/fi";
 
-interface Product {
-  id: string;
-  nome: string;
-  marca: string;
-  quantidade: number;
-  valor: number;
-  estoque_minimo: number;
-}
+import type { Product } from "../../../types/product";
 
 interface ProductTableProps {
   products: Product[];

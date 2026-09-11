@@ -40,17 +40,17 @@ export function useProductForm() {
     setForm(emptyProductForm);
   }
 
-  function startEdit(product: Product) {
-    setEditingId(product.id);
+function startEdit(product: Product) {
+  setEditingId(product.id);
 
-    setForm({
-      nome: product.nome,
-      marca: product.marca,
-      quantidade: String(product.quantidade),
-      valor: String(product.valor),
-      estoque_minimo: String(product.estoque_minimo)
-    });
-  }
+  setForm({
+    nome: product.nome,
+    marca: product.marca,
+    quantidade: String(product.quantidade),
+    valor: String(product.valor),
+    estoque_minimo: String(product.estoque_minimo)
+  });
+}
 
   function resetForm() {
     setEditingId(null);
