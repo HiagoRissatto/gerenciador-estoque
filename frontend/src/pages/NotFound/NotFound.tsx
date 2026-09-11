@@ -1,11 +1,29 @@
 import { motion } from "framer-motion";
-import { FiArrowLeft, FiHome, FiSearch } from "react-icons/fi";
+import {
+  FiArrowLeft,
+  FiHome,
+  FiLogIn,
+  FiSearch
+} from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 
 import "./NotFound.css";
 
 export default function NotFound() {
   const navigate = useNavigate();
+
+  const token = localStorage.getItem("token");
+
+  const isAuthenticated = Boolean(token);
+
+  function handlePrimaryAction() {
+    if (isAuthenticated) {
+      navigate("/dashboard");
+      return;
+    }
+
+    navigate("/");
+  }
 
   return (
     <main className="not-found-page">
@@ -64,10 +82,15 @@ export default function NotFound() {
           <button
             type="button"
             className="not-found-primary"
-            onClick={() => navigate("/dashboard")}
+            onClick={handlePrimaryAction}
           >
-            <FiHome />
-            Ir para o dashboard
+            {isAuthenticated
+              ? <FiHome />
+              : <FiLogIn />}
+
+            {isAuthenticated
+              ? "Ir para o dashboard"
+              : "Ir para o login"}
           </button>
         </div>
       </motion.section>
